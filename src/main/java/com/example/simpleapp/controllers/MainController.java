@@ -6,6 +6,7 @@ import com.example.simpleapp.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,11 +28,18 @@ public class MainController {
     }
 
     @GetMapping("/main")
-    public String main(Map<String, Object> map) {
-        Iterable<Message> messages = messageRepository.findAll();
+    public String main(@RequestParam(required = false) String filter, Model map) {
+        Iterable<Message> messages;
 
-        map.put("messageList", "Список сообщений");
-        map.put("messages", messages);
+        if (!StringUtils.isEmpty(filter)) {
+            messages = messageRepository.findByTag(filter);
+        } else {
+            messages = messageRepository.findAll();
+        }
+
+        map.addAttribute("messageList", "Список сообщений");
+        map.addAttribute("messages", messages);
+        map.addAttribute("filter", filter);
 
 
         return "main";
