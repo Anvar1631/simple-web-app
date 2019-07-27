@@ -15,6 +15,7 @@ public class Message {
     private String text;
     private String tag;
     private Date created_date;
+    private String filename;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
@@ -71,5 +72,13 @@ public class Message {
 
     public void setCreated_date(Date created_date) {
         this.created_date = created_date;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 }

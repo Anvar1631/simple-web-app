@@ -3,6 +3,7 @@ package com.example.simpleapp.controllers;
 import com.example.simpleapp.domain.Role;
 import com.example.simpleapp.domain.User;
 import com.example.simpleapp.repository.UserRepository;
+import com.example.simpleapp.utils.Status;
 import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,7 +35,7 @@ public class RegistrationController {
             model.put("message", "User with this already exists");
             return "registration";
         }
-        user.setStatus(1);
+        user.setStatus(Status.ENABLED.getStatus());
         user.setRoles(Collections.singleton(Role.USER));
         userRepository.save(user);
 
