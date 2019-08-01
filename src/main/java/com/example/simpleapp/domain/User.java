@@ -19,6 +19,9 @@ public class User implements UserDetails {
     private String password;
     private int status;
 
+    private String email;
+    private String activationCode;
+
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.ORDINAL)
@@ -31,6 +34,10 @@ public class User implements UserDetails {
         this.username = username;
         this.password = password;
         this.status = status;
+    }
+
+    public boolean isAdmin() {
+        return this.roles.contains(Role.ADMIN);
     }
 
     public Long getId() {
@@ -96,5 +103,21 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return getRoles();
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
     }
 }

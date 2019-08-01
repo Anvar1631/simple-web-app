@@ -61,7 +61,8 @@ public class MainController {
                              Map<String, Object> model) {
 
         Message message = new Message(text, tag, user);
-        if (file != null) {
+
+        if (file != null && !StringUtils.isEmpty(file.getOriginalFilename())) {
             File uploadDir = new File(uploadPath);
 
             if (!uploadDir.exists()) {
@@ -76,7 +77,7 @@ public class MainController {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            message.setFilename(file.getName());
+            message.setFilename(fileName);
         }
         messageRepository.save(message);
 
